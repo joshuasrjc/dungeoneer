@@ -1,0 +1,37 @@
+body
+{
+  background-color: #CCC;
+  font-size: 14px;
+}
+
+canvas
+{
+}
+
+#MainMenu
+{
+}
+
+#GameArea
+{
+  background-color: black;
+  border: 2px solid #888;
+  width: 800px;
+  height: 600px;
+  color: white;
+}
+
+#MainMenu h1
+{
+  font-size: 96px;
+  color: #444;
+  text-shadow: -2px -2px 0 #888, 2px -2px 0 #888, -2px 2px 0 #888, 2px 2px 0 #888;
+}
+
+.button
+{
+  background-color: #888;
+  color: #444;
+  border: 20px solid #888;
+  font-size: 96px;
+}

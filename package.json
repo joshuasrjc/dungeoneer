@@ -1,0 +1,9 @@
+{
+  "dependencies":
+  {
+    "pixi": "^0.3.1",
+    "matter": "",
+    "crtrdg-keyboard": "",
+    "pixi-tiled": ""
+  }
+}
