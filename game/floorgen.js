@@ -1,19 +1,23 @@
-function Room(x, y)
+var roomgen = require("./roomgen.js");
+var roomData = require("./rooms/room.json");
+
+function Floor()
 {
-  this.x = x;
-  this.y = y;
-  this.connectedRooms = [null, null, null, null];
+  this.startingRoom = null;
+  this.roomArray = [];
 }
 
 // Generates a tree of rooms and returns the head node.
 // n is the depth of the tree.
-var generateRooms = function(n)
+function generateFloor(n)
 {
-  var startingRoom = new Room(0,0);
+  var floor = new Floor();
+  floor.startingRoom = roomgen.createRoom(roomData, 0, 0);
 
-  branchRoom(startingRoom, n);
+  branchRoom(floor.startingRoom, n);
+  addRoomsToArray(floor.startingRoom, floor.roomArray);
 
-  return startingRoom;
+  return floor;
 }
 
 function branchRoom(room, n)
@@ -46,7 +50,7 @@ function Connections()
 
 function spawnBranch(room, i)
 {
-  var spawnedRoom = new Room(room.x, room.y);
+  var spawnedRoom = roomgen.createRoom(roomData, room.x, room.y);
 
   if(i == 0)
   {
@@ -84,5 +88,4 @@ function addRoomsToArray(room, array)
 }
 
 
-exports.generateRooms = generateRooms;
-exports.addRoomsToArray = addRoomsToArray;
+exports.generateFloor = generateFloor;

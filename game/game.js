@@ -1,31 +1,24 @@
 var PIXI = require("pixi.js");
 var Matter = require("matter");
 var Keyboard = require("crtrdg-keyboard");
-var pixiTiled = require("pixi-tiled");
 var floorgen = require("./floorgen.js");
+roomData = require("./rooms/room.json");
 
 var renderer;
 var assetsLoaded = 0;
 var totalAssets = 1;
 
 var stage = new PIXI.Container();
-roomImg = null;
-
-startRoom = null;
-roomArray = [];
+floor = null
 
 function loadAssets()
 {
-  PIXI.loader.add("room.json", onRoomLoaded);
-  PIXI.loader.load();
+  setTimeout(function()
+  {
+    assetsLoaded++;
+  }, 1000);
 }
 
-function onRoomLoaded(res)
-{
-  roomImg = res.tiledMap;
-  //roomImg.scale = {x: 0.2, y: 0.2};
-  assetsLoaded++;
-}
 
 function startGame()
 {
@@ -34,11 +27,9 @@ function startGame()
   renderer = PIXI.autoDetectRenderer(800,600, {backgroundColor : 0xFF0000});
   document.getElementById("GameArea").appendChild(renderer.view);
 
-  startRoom = floorgen.generateRooms(5);
+  floor = floorgen.generateFloor(5);
 
-  floorgen.addRoomsToArray(startRoom, roomArray);
-
-  alert(roomArray.length);
+  var roomArray = floor.roomArray;
 
   for(var i = 0 ; i < roomArray.length ; i++)
   {
