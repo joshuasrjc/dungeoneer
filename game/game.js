@@ -67,5 +67,7 @@ document.addEventListener("DOMContentLoaded", function(event)
 {
   loadAssets();
   document.getElementById("Credits").style.display = "none";
+  document.getElementById("LoadingScreen").style.display = "none";
+  document.getElementById("MainMenu").style.display = "";
   document.getElementById("StartButton").onclick = startGame;
 });

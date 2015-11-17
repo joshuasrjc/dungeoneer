@@ -28,6 +28,14 @@ canvas
   text-shadow: -2px -2px 0 #888, 2px -2px 0 #888, -2px 2px 0 #888, 2px 2px 0 #888;
 }
 
+#LoadingScreen h1
+{
+  font-size: 96px;
+  color: #444;
+  text-shadow: -2px -2px 0 #888, 2px -2px 0 #888, -2px 2px 0 #888, 2px 2px 0 #888;
+  vertical-align: middle;
+}
+
 .button
 {
   background-color: #888;
