@@ -2,23 +2,14 @@ var PIXI = require("pixi.js");
 var Matter = require("matter");
 var Keyboard = require("crtrdg-keyboard");
 var floorgen = require("./floorgen.js");
-roomData = require("./rooms/room.json");
+roomData = require("./rooms/room1.json");
 
 var renderer;
 var assetsLoaded = 0;
 var totalAssets = 1;
 
 var stage = new PIXI.Container();
-floor = null
-
-function loadAssets()
-{
-  setTimeout(function()
-  {
-    assetsLoaded++;
-  }, 1000);
-}
-
+floor = null;
 
 function startGame()
 {
@@ -27,7 +18,7 @@ function startGame()
   renderer = PIXI.autoDetectRenderer(800,600, {backgroundColor : 0xFF0000});
   document.getElementById("GameArea").appendChild(renderer.view);
 
-  floor = floorgen.generateFloor(5);
+  floor = floorgen.generateFloor(6);
 
   var roomArray = floor.roomArray;
 
@@ -54,11 +45,24 @@ function draw()
   renderer.render(stage);
 }
 
-document.addEventListener("DOMContentLoaded", function(event)
+function loadAssets()
 {
-  loadAssets();
+  setTimeout(function()
+  {
+    assetsLoaded++;
+    doneLoading();
+  }, 300);
+}
+
+function doneLoading()
+{
   document.getElementById("Credits").style.display = "none";
   document.getElementById("LoadingScreen").style.display = "none";
   document.getElementById("MainMenu").style.display = "";
   document.getElementById("StartButton").onclick = startGame;
+}
+
+document.addEventListener("DOMContentLoaded", function(event)
+{
+  loadAssets();
 });
