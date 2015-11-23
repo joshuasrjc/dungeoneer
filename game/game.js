@@ -18,7 +18,7 @@ function startGame()
   renderer = PIXI.autoDetectRenderer(800,600, {backgroundColor : 0xFF0000});
   document.getElementById("GameArea").appendChild(renderer.view);
 
-  floor = floorgen.generateFloor(6);
+  floor = floorgen.generateFloor(1);
 
   var roomArray = floor.roomArray;
 
