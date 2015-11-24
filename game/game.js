@@ -15,26 +15,24 @@ function startGame()
 {
   if(assetsLoaded < totalAssets){return}
   document.getElementById("MainMenu").style.display = "none";
-  renderer = PIXI.autoDetectRenderer(800,600, {backgroundColor : 0xFF0000});
+  renderer = PIXI.autoDetectRenderer(800,600, {backgroundColor : 0x000000});
   document.getElementById("GameArea").appendChild(renderer.view);
 
-  floor = floorgen.generateFloor(1);
+  floor = floorgen.generateFloor(5);
 
   var roomArray = floor.roomArray;
 
   for(var i = 0 ; i < roomArray.length ; i++)
   {
     var room = roomArray[i];
-    var graphics = new PIXI.Graphics();
-
-    graphics.beginFill(0x0000FF);
-    graphics.lineStyle(3,0x000000);
-    graphics.drawRect(room.x*20,room.y*20,20,20);
-    stage.addChild(graphics);
+    stage.addChild(room.sprite);
   }
 
-  stage.x += 400;
-  stage.y += 300;
+  stage.scale.x = 1/9;
+  stage.scale.y = 1/9;
+
+  stage.x = 400;
+  stage.y = 300;
 
   draw();
 }

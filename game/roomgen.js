@@ -42,16 +42,17 @@ function createRoom(x, y)
   room.sprite = new PIXI.Container();
   var dungeonTiles = null;
   var layers = roomData.layers;
-  for(var layer in layers)
+  for(var i = 0 ; i < layers.length ; i++)
   {
+    var layer = layers[i];
     if(layer.name == "DungeonTiles")
     {
       dungeonTiles = layer;
     }
   }
 
-  var w = layer.width;
-  var h = layer.height;
+  var w = dungeonTiles.width;
+  var h = dungeonTiles.height;
   var tileWidth = room.tileset.tileWidth;
   var tileHeight = room.tileset.tileHeight;
 
@@ -67,6 +68,12 @@ function createRoom(x, y)
       room.sprite.addChild(sprite);
     }
   }
+
+  var roomWidth = w * tileWidth;
+  var roomHeight = h * tileHeight;
+
+  room.sprite.x = room.x * roomWidth - roomWidth;
+  room.sprite.y = room.y * roomHeight - roomHeight;
 
   return room;
 }
@@ -84,5 +91,5 @@ function createRoom(x, y)
 
 
 
-
+exports.tileset = tileset;
 exports.createRoom = createRoom;
