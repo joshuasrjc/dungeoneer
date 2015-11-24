@@ -1,5 +1,5 @@
 var PIXI = require("pixi.js");
-var Matter = require("matter");
+var Matter = require("./matter.js");
 var Keyboard = require("crtrdg-keyboard");
 var floorgen = require("./floorgen.js");
 roomData = require("./rooms/room1.json");
@@ -9,6 +9,8 @@ var assetsLoaded = 0;
 var totalAssets = 1;
 
 var stage = new PIXI.Container();
+var engine = new Matter.Engine.create(document.body);
+test_doc = document.body;
 floor = null;
 
 function startGame()
@@ -26,14 +28,16 @@ function startGame()
   {
     var room = roomArray[i];
     stage.addChild(room.sprite);
+    Matter.World.add(engine.world, room.bodies);
   }
 
-  stage.scale.x = 1/9;
-  stage.scale.y = 1/9;
+  //stage.scale.x = 1/9;
+  //stage.scale.y = 1/9;
 
-  stage.x = 400;
-  stage.y = 300;
+  //stage.x = 400;
+  //stage.y = 300;
 
+  Matter.Engine.run(engine);
   draw();
 }
 

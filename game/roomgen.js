@@ -1,4 +1,5 @@
 var PIXI = require("pixi.js");
+var Matter = require("./matter.js");
 var roomData = require("./rooms/room1.json");
 var tileset = new Tileset(roomData);
 
@@ -32,6 +33,7 @@ function Room(x, y)
   this.y = y;
   this.connectedRooms = [null, null, null, null]; // [0]Up, [1]Right, [2]Down, [3]Left
   this.sprite = null;
+  this.bodies = [];
 }
 
 function createRoom(x, y)
@@ -41,14 +43,27 @@ function createRoom(x, y)
 
   room.sprite = new PIXI.Container();
   var dungeonTiles = null;
+  var dungeonWalls = null;
   var layers = roomData.layers;
   for(var i = 0 ; i < layers.length ; i++)
   {
     var layer = layers[i];
+
+    switch(layer.name)
+    {
+      case "DungeonTiles":
+        dungeonTiles = layer;
+        break;
+      case "DungeonWalls":
+        dungeonWalls = layer;
+        break;
+    }
+
     if(layer.name == "DungeonTiles")
     {
       dungeonTiles = layer;
     }
+
   }
 
   var w = dungeonTiles.width;
@@ -72,8 +87,19 @@ function createRoom(x, y)
   var roomWidth = w * tileWidth;
   var roomHeight = h * tileHeight;
 
-  room.sprite.x = room.x * roomWidth - roomWidth;
-  room.sprite.y = room.y * roomHeight - roomHeight;
+  room.sprite.x = roomWidth * room.x;
+  room.sprite.y = roomHeight *room.y;
+
+  var walls = dungeonWalls.objects;
+  for(var i = 0 ; i < walls.length ; i++)
+  {
+    var wall = walls[i];
+    var bodyX = wall.x + room.x * roomWidth + wall.width/2;
+    var bodyY = wall.y + room.y * roomHeight + wall.height/2;
+    var body = Matter.Bodies.rectangle(bodyX, bodyY, wall.width, wall.height);
+    body.isStatic = true;
+    room.bodies.push(body);
+  }
 
   return room;
 }

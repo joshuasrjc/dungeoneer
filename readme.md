@@ -5,3 +5,8 @@ Week 1 (11/16/2015)
 * Add door logic to floorgen.js
 
 Week 2 (11/23/2015)
+* Physics importer
+* Player movement
+* GameObjects with GameComponents
+* PhysicsBody component
+* Player component
