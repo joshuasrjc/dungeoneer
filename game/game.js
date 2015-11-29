@@ -1,5 +1,5 @@
-var PIXI = require("pixi.js");
-var Matter = require("./matter.js");
+var PIXI = require("./lib/pixi.js");
+var Matter = require("./lib/matter.js");
 var Keyboard = require("crtrdg-keyboard");
 var floorgen = require("./floorgen.js");
 roomData = require("./rooms/room1.json");
