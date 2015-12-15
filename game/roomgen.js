@@ -6,6 +6,7 @@ var tileset = new Tileset(roomData);
 function Tileset(roomData)
 {
   var image = PIXI.Texture.fromImage("./rooms/tileset.png");
+  //image.baseTexture.
   var tilesetData = roomData.tilesets[0];
   var tileWidth = tilesetData.tilewidth;
   var tileHeight = tilesetData.tileheight;

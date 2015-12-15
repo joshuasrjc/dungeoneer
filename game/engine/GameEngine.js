@@ -1,12 +1,20 @@
-var PhysicsBody = require("./PhysicsBody.js");
+var ComponentFactory = require("./ComponentFactory.js");
+var PIXI = require("pixi.js");
+var Matter = require("./matter.js");
 
 function Scene()
 {
   var scene = this;
+  scene.objects = [];
+  scene.physicsEngine = new Matter.Engine.create();
+  //scene.physicsEngine = new Matter.Engine.create(document.body);
+  scene.canvas = new PIXI.Container();
+  scene.renderer = PIXI.autoDetectRenderer(800,600, {backgroundColor : 0x000000});
+  scene.viewCenter = {x: 0, y: 0};
 
   scene.addGameObject = function(gameObject)
   {
-    scene.push(gameObject);
+    scene.objects.push(gameObject);
     gameObject.start(scene);
   }
 
@@ -14,14 +22,45 @@ function Scene()
   {
     for(var i = 0 ; i < scene.length ; i++)
     {
-      if(scene[i] == gameObject)
+      if(scene.objects[i] == gameObject)
       {
         gameObject.stop();
-        scene.splice(1, 1);
+        scene.objects.splice(1, 1);
       }
     }
   }
 
+  scene.addBodies = function(bodies)
+  {
+    Matter.World.add(scene.physicsEngine.world, bodies);
+  }
+
+  scene.update = function()
+  {
+    var deltaTime = scene.physicsEngine.timing.delta / 1000;
+
+    scene.canvas.position.x = -scene.viewCenter.x + 400;
+    scene.canvas.position.y = -scene.viewCenter.y + 300;
+
+    for(index in scene.objects)
+    {
+      scene.objects[index].update(scene, deltaTime);
+    }
+  }
+
+  scene.draw = function()
+  {
+    requestAnimationFrame(scene.draw);
+    scene.renderer.render(scene.canvas);
+  }
+
+
+  document.getElementById("GameArea").appendChild(scene.renderer.view);
+  scene.physicsEngine.world.gravity.y = 0;
+  Matter.Events.on(scene.physicsEngine, "beforeUpdate", scene.update);
+  Matter.Engine.run(scene.physicsEngine);
+
+  scene.draw();
 }
 
 function GameObject(objData)
@@ -29,71 +68,48 @@ function GameObject(objData)
   var self = this;
   self.components = [];
   self.name = objData.name;
+  self.objData = objData;
 
-  for(var componentData in objData.components)
+  for(var index in objData.components)
   {
-    var component = new Component(self);
-    var componentClass = componentClassFromName(componentData.name);
-    componentClass.call(component, componentData);
+    var componentData = objData.components[index];
+    self.comp = componentData;
+    var component = ComponentFactory.createComponent(self, componentData);
     self.components.push(component);
   }
 
-  gameObject.getComponent = function(name)
+  self.getComponent = function(name)
   {
-    for(var comp in self.components)
+    for(var index in self.components)
     {
-      if(comp.name == name)
+      if(self.components[index].name == name)
       {
-        return comp;
+        return self.components[index];
       }
     }
     return null;
   }
 
-  gameObject.start = function(scene)
-  { for(var comp in self.components) { comp.start(scene); } }
+  self.start = function(scene)
+  { for(var index in self.components) { self.components[index].start(scene); } }
 
-  gameObject.update = function(scene)
-  { for(var comp in self.components) { comp.update(scene); } }
+  self.update = function(scene, deltaTime)
+  { for(var index in self.components) { self.components[index].update(scene, deltaTime); } }
 
-  GameObject.stop = function(scene)
-  { for(var comp in self.components) { comp.stop(scene); } }
+  self.stop = function(scene)
+  { for(var index in self.components) { self.components[index].stop(scene); } }
 }
 
-function Component(gameObject)
+function createScene()
 {
-  this.gameObject = gameObject;
-  this.name = "Component";
-  this.start = function(scene){}
-  this.update = function(scene){}
-  this.stop = function(scene){}
-}
-
-function componentClassFromName(name)
-{
-  var componentClass;
-  switch(name)
-  {
-    case "PhysicsBody":
-      componentClass = PhysicsBody;
-      break;
-    default:
-      componentClass = null;
-  }
-
-  return componentClass;
-}
-
-function createScene(physicsEngine)
-{
-  return new Scene(physicsEngine);
+  return new Scene();
 }
 
 function createGameObject(objData)
 {
-  return new GameObject(prefabData);
+  return new GameObject(objData);
 }
 
 exports.createScene = createScene;
 
-exports.
+exports.createGameObject = createGameObject;
