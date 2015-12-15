@@ -1,5 +1,5 @@
 var PIXI = require("pixi.js");
-var Component = require("./ComponentFactory.js").Component
+var Component = require("./ComponentFactory.js").Component;
 
 function GameSprite()
 {

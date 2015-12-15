@@ -39,8 +39,8 @@ function Scene()
   {
     var deltaTime = scene.physicsEngine.timing.delta / 1000;
 
-    scene.canvas.position.x = -scene.viewCenter.x + 400;
-    scene.canvas.position.y = -scene.viewCenter.y + 300;
+    scene.canvas.position.x = Math.round(-scene.viewCenter.x + 400);
+    scene.canvas.position.y = Math.round(-scene.viewCenter.y + 300);
 
     for(index in scene.objects)
     {

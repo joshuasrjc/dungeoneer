@@ -1,5 +1,5 @@
 var PIXI = require("pixi.js");
-PIXI.BaseTexture.SCALE_MODE.DEFAULT = PIXI.BaseTexture.SCALE_MODE.NEAREST;
+//PIXI.BaseTexture.SCALE_MODE.DEFAULT = PIXI.BaseTexture.SCALE_MODE.NEAREST;
 var floorgen = require("./floorgen.js");
 var GameEngine = require("./engine/GameEngine.js");
 PlayerPrefab = require("./prefabs/Player.json");

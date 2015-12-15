@@ -4,13 +4,13 @@
   [
     {
       "name": "Player",
-      "walkSpeed": 80
+      "walkSpeed": 240
     }
     ,
     {
       "name": "PhysicsBody",
       "position": {"x": 351, "y": 351},
-      "dimensions": {"w": 20, "h": 20}
+      "dimensions": {"w": 16, "h": 16}
     }
     ,
     {
